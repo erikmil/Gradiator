@@ -1,6 +1,7 @@
 {
   "name": "gradiator",
   "version": "1.0.0",
+  "description": "Climbing grade converter and visualizer (React Native / Expo)",
   "main": "index.ts",
   "scripts": {
     "start": "expo start --dev-client",

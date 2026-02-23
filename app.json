@@ -2,6 +2,7 @@
   "expo": {
     "name": "Gradiator",
     "slug": "ConvertClimb",
+      "description": "Convert and compare climbing grades across international grading systems",
     "version": "1.0.0",
     "orientation": "default",
     "userInterfaceStyle": "light",
