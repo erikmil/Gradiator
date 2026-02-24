@@ -17,6 +17,8 @@ Gradiator is a lightweight React Native (Expo) app for climbers to convert and c
 
 ![Screenshot 2](assets/screenshots/screenshot-2.png)
 
+![Screenshot 2](assets/screenshots/screenshot-3.png)
+
 ---
 
 ## Prerequisites
