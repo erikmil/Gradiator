@@ -11,6 +11,7 @@ type Props = {
   onSelect: (sys: string) => void;
   onClose: () => void;
   exclude?: string[];
+  selected?: string;
 };
 
 export default function SystemPicker({
@@ -18,6 +19,7 @@ export default function SystemPicker({
   onSelect,
   onClose,
   exclude = [],
+  selected,
 }: Props) {
   const availableSystems = SYSTEMS.filter((s) => !exclude.includes(s.label));
   return (
@@ -27,15 +29,22 @@ export default function SystemPicker({
         <View style={styles.view}>
           <Text style={styles.title}>Choose grading system</Text>
 
-          {availableSystems.map((s) => (
-            <Pressable
-              key={s.key}
-              style={styles.row}
-              onPress={() => onSelect(s.label)}
-            >
-              <Text style={styles.txt}>{s.label}</Text>
-            </Pressable>
-          ))}
+          {availableSystems.map((s) => {
+            const isSelected = s.label === selected;
+            return (
+              <Pressable
+                key={s.key}
+                style={styles.row}
+                onPress={() => onSelect(s.label)}
+              >
+                <View style={[styles.highlight, isSelected && styles.highlightSelected]}>
+                  <Text style={[styles.txt, isSelected && styles.txtSelected]}>
+                    {s.label}
+                  </Text>
+                </View>
+              </Pressable>
+            );
+          })}
         </View>
       </Pressable>
     </FullScreenModal>
@@ -51,13 +60,25 @@ const styles = StyleSheet.create({
     fontSize: TITLE,
     letterSpacing: getLetterSpacing(TITLE),
   },
-  row: { paddingVertical: 8, alignItems: "center" },
+  row: { paddingVertical: 8, alignItems: "center", width: "100%" },
+  highlight: {
+    height: 48,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  highlightSelected: {
+    backgroundColor: "#1A18BA",
+  },
   txt: {
     fontSize: TXT,
     letterSpacing: getLetterSpacing(TITLE),
     color: "#1A18BA",
     fontFamily: "CoolveticaBold",
-    height: 48,
+    textAlign: "center",
+  },
+  txtSelected: {
+    color: "#fff",
   },
   view: {
     flex: 1,

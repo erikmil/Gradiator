@@ -44,6 +44,7 @@ export default function GradeModalController() {
       />
       <SystemPicker
         visible={modal === "top"}
+        selected={topSystem}
         exclude={[bottomSystem]}
         onSelect={(s: string) => {
           setTopSystem(s);
@@ -54,6 +55,7 @@ export default function GradeModalController() {
 
       <SystemPicker
         visible={modal === "bottom"}
+        selected={bottomSystem}
         exclude={[topSystem]}
         onSelect={(s: string) => {
           setBottomSystem(s);

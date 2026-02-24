@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   card: {
     alignItems: "flex-end",
     justifyContent: "center",
-    gap: "25%",
+    gap: 84,
   },
   block: { alignItems: "flex-end" },
 
