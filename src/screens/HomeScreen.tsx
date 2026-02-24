@@ -53,9 +53,9 @@ export default function HomeScreen() {
       <BackgroundLines />
       <GradeModalController />
 
-      {/* Paspaudimai ant viršutinės / apatinės zonos  */}
+      {/* Taps on the upper / lower zone  */}
       <Animated.View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
-        {/* Viršus – mažina laipsnį */}
+        {/* Top – decreases grade */}
         <Animated.View
           pointerEvents="auto"
           style={{

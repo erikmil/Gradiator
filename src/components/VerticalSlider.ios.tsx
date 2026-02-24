@@ -48,7 +48,7 @@ export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
     const id = anim.addListener(measure);
     return () => anim.removeListener(id);
   }, [anim]);
-  /* --- išmatavimai --- */
+  /* --- measurements --- */
   const onLayout = (e: LayoutChangeEvent) => {
     const h = e.nativeEvent.layout.height;
     setFullHeight(h);
@@ -62,7 +62,7 @@ export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
     );
     return () => anim.removeListener(id);
   }, [anim, setBlueY]);
-  /* --- apvaliname iki artimiausio žingsnio --- */
+  /* --- round to nearest step --- */
   const snap = (raw: number) => Math.round(raw / STEP_PCT) * STEP_PCT;
 
   /* --- PanResponder --- */
@@ -74,7 +74,7 @@ export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
           start.current = (anim as any).__getValue();
         },
         onPanResponderMove: (_, g) => {
-          const raw = start.current - (g.dy * SENS) / usableH; // ↓ didina anim
+          const raw = start.current - (g.dy * SENS) / usableH; // ↓ increases anim
           const clamped = Math.max(0, Math.min(raw, 1));
           anim.setValue(clamped);
           onChange?.(clamped);
@@ -101,7 +101,7 @@ export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
     [anim, usableH]
   );
 
-  /* --- vizualinė geometrija --- */
+  /* --- visual geometry --- */
   const blueH = anim.interpolate({
     inputRange: [0, 1],
     outputRange: [BOTTOM_PAD, fullHeight - TOP_PAD],
@@ -110,17 +110,17 @@ export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
 
   return (
     <View style={styles.layer} onLayout={onLayout} pointerEvents="box-none">
-      {/* Balta sritis (viršuje): –1 žingsnis */}
+      {/* White area (top): –1 step */}
       <TouchableWithoutFeedback onPress={stepUp}>
         <View style={StyleSheet.absoluteFill} />
       </TouchableWithoutFeedback>
 
-      {/* Mėlyna apačia (aukštis reaguoja į anim) */}
+      {/* Blue bottom (height responds to anim) */}
       <TouchableWithoutFeedback onPress={stepDown}>
         <Animated.View ref={ref} style={[styles.blue, { height: blueH }]} />
       </TouchableWithoutFeedback>
 
-      {/* Rankenėlė */}
+      {/* Handle */}
       <Animated.View
         {...pan.panHandlers}
         style={[styles.thumb, { bottom: thumbBottom }]}

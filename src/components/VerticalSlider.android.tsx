@@ -48,14 +48,14 @@ export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
     const id = anim.addListener(measure);
     return () => anim.removeListener(id);
   }, [anim]);
-  /* --- išmatavimai --- */
+  /* --- measurements --- */
   const onLayout = (e: LayoutChangeEvent) => {
     const h = e.nativeEvent.layout.height;
     setFullHeight(h);
     onLayoutHeight(h);
   };
 
-  /* --- apvaliname iki artimiausio žingsnio --- */
+  /* --- round to nearest step --- */
   const snap = (raw: number) => Math.round(raw / STEP_PCT) * STEP_PCT;
 
   /* --- PanResponder --- */
@@ -102,17 +102,17 @@ export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
 
   return (
     <View style={styles.layer} onLayout={onLayout} pointerEvents="box-none">
-      {/* Balta sritis (viršuje): –1 žingsnis */}
+      {/* White area (top): –1 step */}
       <TouchableWithoutFeedback onPress={stepUp}>
         <View style={StyleSheet.absoluteFill} />
       </TouchableWithoutFeedback>
 
-      {/* Mėlyna apačia (aukštis reaguoja į anim) */}
+      {/* Blue bottom (height responds to anim) */}
       <TouchableWithoutFeedback onPress={stepDown}>
         <Animated.View ref={ref} style={[styles.blue, { height: blueH }]} />
       </TouchableWithoutFeedback>
 
-      {/* Rankenėlė */}
+      {/* Handle */}
       <Animated.View
         {...pan.panHandlers}
         style={[styles.thumb, { bottom: thumbBottom }]}

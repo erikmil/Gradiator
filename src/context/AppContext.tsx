@@ -40,7 +40,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [modal, setModal] = useState<ModalType>(null);
   const [bootstrapped, setBootstrapped] = useState(false);
 
-  /* ANIM (pradžiai 0 = mėlyna apačia) */
+  /* ANIM (initially 0 = blue at bottom) */
   const anim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {

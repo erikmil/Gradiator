@@ -29,15 +29,15 @@ export const MaskProvider: React.FC<{ children: React.ReactNode }> = ({
   /** bendras animacijos value – *visų* komponentų dalijamasi */
   const anim = useRef(new Animated.Value(1 - 32 / (GRADES.length - 1))).current;
 
-  /** mėlynos juostos viršus (Y koord. nuo lango viršaus) */
+  /** blue bar top (Y coordinate from window top) */
   const blueY = useRef(new Animated.Value(0)).current;
   const setBlueY = (y: number) => blueY.setValue(y);
 
-  /** aukštis pagal gradą */
+  /** height based on grade */
   const usableH = Math.max(fullH - TOP_PAD - BOTTOM_PAD, 1);
   const blueH = Animated.add(Animated.multiply(anim, usableH), BOTTOM_PAD);
 
-  /** viršus viršutiniams komponentams*/
+  /** top offset for upper components*/
   const blueTop = Animated.subtract(new Animated.Value(0), blueH);
 
   return (
