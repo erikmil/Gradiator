@@ -187,6 +187,44 @@ Metro is not running. Start it with `npx expo start` and relaunch the app.
 **Need to rebuild after changing native dependencies**
 Re-run `npx expo prebuild` (add `--clean` for a fresh build) followed by `npx expo run:ios` or `npx expo run:android`.
 
+**Metro crashes on startup with `ERR_MODULE_NOT_FOUND` or `Cannot use import statement outside a module` (Node.js 22+)**
+Two issues can cause this when using Node.js 22 or newer with Expo SDK 50:
+
+1. **`expo-asset` in plugins** — `expo prebuild` may auto-inject `"expo-asset"` into the `plugins` array in `app.json`, but `expo-asset` has no valid config plugin. Remove it:
+   ```json
+   // app.json — remove "expo-asset" from plugins, keep only what you need
+   "plugins": [["expo-font", { "fonts": [...] }]]
+   ```
+
+2. **Strict ESM resolution** — Node.js 22+ loads files with `import` syntax as strict ES modules, which require explicit file extensions. Several Expo SDK 50 package build files use bare imports (e.g. `import './Foo'` instead of `import './Foo.js'`). If you hit this after a fresh `npm install`, run the following patch script from the project root:
+   ```bash
+   node -e "
+   const fs = require('fs'), path = require('path'), re = /import '(\\.[\\/][^']+)'/g;
+   const dirs = ['expo','expo-asset','expo-font','expo-constants','expo-file-system',
+     'expo-keep-awake','expo-status-bar'].map(p => path.join('node_modules', p, 'build'));
+   for (const dir of dirs) {
+     if (!fs.existsSync(dir)) continue;
+     for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.js'))) {
+       const fp = path.join(dir, f), src = fs.readFileSync(fp, 'utf8');
+       if (!src.includes('import ')) continue;
+       const fixed = src.replace(re, (m, s) => path.extname(s) ? m : \`import '\${s}.js'\`);
+       if (fixed !== src) { fs.writeFileSync(fp, fixed); console.log('patched', fp); }
+     }
+   }
+   "
+   ```
+   Then also apply these two manual fixes:
+   ```bash
+   # assets-registry bare subpath import
+   sed -i '' "s|from '@react-native/assets-registry/registry'|from '@react-native/assets-registry/registry.js'|g" \
+     node_modules/expo-asset/build/Asset.js
+
+   # expo/build/Expo.fx.js: './winter' is a directory, not a file
+   sed -i '' "s|import './winter.js'|import './winter/index.js'|g" \
+     node_modules/expo/build/Expo.fx.js
+   ```
+   Finally restart Metro: `npx expo start --clear`
+
 ---
 
 ## License
