@@ -2,7 +2,7 @@
   "expo": {
     "name": "Gradiator",
     "slug": "ConvertClimb",
-      "description": "Convert and compare climbing grades across international grading systems",
+    "description": "Convert and compare climbing grades across international grading systems",
     "version": "1.0.0",
     "orientation": "default",
     "userInterfaceStyle": "light",
@@ -15,7 +15,7 @@
     "ios": {
       "buildNumber": "1",
       "supportsTablet": true,
-      "bundleIdentifier": "com.gabwowce.gradiator",
+      "bundleIdentifier": "com.gradiator.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
@@ -30,7 +30,7 @@
       },
       "edgeToEdgeEnabled": true,
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.gabwowce.gradiator"
+      "package": "com.gradiator.app"
     },
     "web": {
       "favicon": "./assets/app-logo.png"
@@ -45,10 +45,10 @@
         }
       ]
     ],
-    "owner": "gabwowce",
+    "owner": "erikmil",
     "extra": {
       "eas": {
-        "projectId": "ea70aeec-6e63-4cd7-819a-32fecaa444b4"
+        "projectId": "fb256c4f-e6df-45f8-bc96-c09cfca103b3"
       }
     }
   }
