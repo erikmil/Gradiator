@@ -13,7 +13,7 @@
         "production": {
             "autoIncrement": true,
             "android": { "buildType": "app-bundle" },
-            "ios": { "distribution": "store" }
+            "ios": { "distribution": "store", "image": "latest" }
         }
     },
     "submit": { "production": {} }
