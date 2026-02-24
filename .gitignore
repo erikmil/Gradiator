@@ -15,6 +15,7 @@ web-build/
 
 # Native
 ios/
+android/
 .kotlin/
 *.orig.*
 *.jks
