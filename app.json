@@ -43,8 +43,7 @@
             "./assets/fonts/coolvetica_rg.ttf"
           ]
         }
-      ],
-      "expo-asset"
+      ]
     ],
     "owner": "gabwowce",
     "extra": {
