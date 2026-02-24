@@ -1,50 +1,38 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-// import * as SplashScreenExpo from "expo-splash-screen";
 import { AppProvider } from "./src/context/AppContext";
 import { MaskProvider } from "./src/context/MaskContext";
 import { useGlobalFonts } from "./src/hooks/useGlobalFonts";
 import HomeScreen from "./src/screens/HomeScreen";
 import SplashScreen from "./src/screens/SplashScreen";
 
-// SplashScreenExpo.preventAutoHideAsync();
+const SPLASH_DURATION_MS = 3200;
 
 export default function App() {
   const fontsLoaded = useGlobalFonts();
-  const [splashFinished, setSplashFinished] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const slideAnim = useRef(new Animated.Value(0)).current;
 
-  // useEffect(() => {
-  //   if (fontsLoaded) {
-  //     // Hide Expo's splash screen immediately when fonts are loaded
-  //     SplashScreenExpo.hideAsync();
-  //   }
-  // }, [fontsLoaded]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      Animated.timing(slideAnim, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }).start(() => {
+        setShowSplash(false);
+      });
+    }, SPLASH_DURATION_MS);
 
-  const handleSplashFinish = () => {
-    setSplashFinished(true);
-
-    // Animate splash screen sliding down
-    Animated.timing(slideAnim, {
-      toValue: 1,
-      duration: 400,
-      useNativeDriver: true,
-    }).start(() => {
-      setShowSplash(false);
-    });
-  };
-
-  if (!fontsLoaded) {
-    return <SplashScreen onFinish={() => {}} />;
-  }
+    return () => clearTimeout(timer);
+  }, []);
 
   const translateY = slideAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 1000], // Adjust this value based on screen height
+    outputRange: [0, 1000],
   });
 
   return (
@@ -58,12 +46,10 @@ export default function App() {
             <Animated.View
               style={[
                 StyleSheet.absoluteFillObject,
-                {
-                  transform: [{ translateY }],
-                },
+                { transform: [{ translateY }] },
               ]}
             >
-              <SplashScreen onFinish={handleSplashFinish} />
+              <SplashScreen />
             </Animated.View>
           )}
         </MaskProvider>

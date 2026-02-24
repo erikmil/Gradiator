@@ -1,6 +1,6 @@
+import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { Text } from "react-native";
-import { useFonts } from "expo-font";
 
 export function useGlobalFonts() {
   const [fontsLoaded] = useFonts({

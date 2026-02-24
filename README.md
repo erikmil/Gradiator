@@ -213,7 +213,7 @@ Two issues can cause this when using Node.js 22 or newer with Expo SDK 50:
    }
    "
    ```
-   Then also apply these two manual fixes:
+   Then also apply these manual fixes:
    ```bash
    # assets-registry bare subpath import
    sed -i '' "s|from '@react-native/assets-registry/registry'|from '@react-native/assets-registry/registry.js'|g" \
@@ -222,6 +222,26 @@ Two issues can cause this when using Node.js 22 or newer with Expo SDK 50:
    # expo/build/Expo.fx.js: './winter' is a directory, not a file
    sed -i '' "s|import './winter.js'|import './winter/index.js'|g" \
      node_modules/expo/build/Expo.fx.js
+
+   # expo/build/winter/index.js: the ESM patch above turns './runtime' into './runtime.js'
+   # but './runtime.js' is an empty web stub — the native URL polyfill is in runtime.native.js
+   sed -i '' "s|import './runtime.js'|import './runtime.native.js'|g" \
+     node_modules/expo/build/winter/index.js
+
+   # expo-asset/build/PlatformUtils.js: in bare workflow, manifestBaseUrl is null so asset
+   # URIs are relative ('/assets/?unstable_path=...'). Patch to prepend Metro server URL.
+   node -e "
+   const fs = require('fs'), fp = 'node_modules/expo-asset/build/PlatformUtils.js';
+   const src = fs.readFileSync(fp, 'utf8');
+   const patch = \`    if (uri.startsWith('/') && typeof __DEV__ !== 'undefined' && __DEV__) {
+       uri = 'http://localhost:8081' + uri;
+   }\`;
+   const anchor = \"if (uri.startsWith('file://')) {\";
+   if (!src.includes('localhost:8081')) {
+     fs.writeFileSync(fp, src.replace(anchor, anchor + '\n' + patch));
+     console.log('patched PlatformUtils.js');
+   }
+   "
    ```
    Finally restart Metro: `npx expo start --clear`
 
