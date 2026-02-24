@@ -138,21 +138,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  innerCell: {
-    padding: 10,
-    borderRadius: 6,
-    backgroundColor: "transparent",
-  },
-  innerCellSelected: {
-    backgroundColor: "#1A18BA",
-  },
   txt: {
     color: "#1A18BA",
     fontSize: TXT,
     letterSpacing: getLetterSpacing(TITLE),
     fontFamily: "Coolvetica",
-  },
-  txtSelected: {
-    color: "#FFFFFF",
   },
 });

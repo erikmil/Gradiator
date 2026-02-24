@@ -66,7 +66,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     AsyncStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({ gradeIdx, topSystem, bottomSystem })
-    ).catch((e) => console.warn("Failed to persist preferences", e));
+    ).catch((e) => __DEV__ && console.warn("Failed to persist preferences", e));
   }, [bootstrapped, gradeIdx, topSystem, bottomSystem]);
 
   useEffect(() => {

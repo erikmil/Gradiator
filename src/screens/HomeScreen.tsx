@@ -72,7 +72,7 @@ export default function HomeScreen() {
         </Animated.View>
       </Animated.View>
 
-      {/* Slideris */}
+      {/* Slider */}
       <View style={StyleSheet.absoluteFill}>
         <VerticalSlider
           onChange={(p) =>

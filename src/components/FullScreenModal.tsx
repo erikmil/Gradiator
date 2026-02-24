@@ -35,7 +35,6 @@ export default function FullScreenModal({
       <View style={s.container}>
         <Pressable style={s.backdrop} onPress={onClose} />
 
-        {/* lapelis */}
         <SafeAreaView style={[s.sheet, contentStyle]}>
           <ScrollView
             contentContainerStyle={s.contentContainerStyle}

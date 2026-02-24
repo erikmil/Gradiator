@@ -12,7 +12,7 @@ import SplashScreen from "./src/screens/SplashScreen";
 const SPLASH_DURATION_MS = 3200;
 
 export default function App() {
-  const fontsLoaded = useGlobalFonts();
+  useGlobalFonts();
   const [showSplash, setShowSplash] = useState(true);
   const slideAnim = useRef(new Animated.Value(0)).current;
 

@@ -30,7 +30,6 @@ export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
   const ref = useRef<View>(null);
   const { setGradeAndSyncAnim, stepUp, stepDown, anim, gradeIdx, setGradeIdx } =
     useApp();
-  const { fullH, blueY: _, blueTop: __, blueH: ___ } = useMask();
   const { setBlueY } = useMask();
 
   const [fullHeight, setFullHeight] = useState(0);
