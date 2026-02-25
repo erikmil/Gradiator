@@ -12,12 +12,18 @@ import SplashScreen from "./src/screens/SplashScreen";
 const SPLASH_DURATION_MS = 3200;
 
 export default function App() {
-  useGlobalFonts();
+  const fontsLoaded = useGlobalFonts();
   const [showSplash, setShowSplash] = useState(true);
+  const [timerElapsed, setTimerElapsed] = useState(false);
   const slideAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setTimeout(() => setTimerElapsed(true), SPLASH_DURATION_MS);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (timerElapsed && fontsLoaded) {
       Animated.timing(slideAnim, {
         toValue: 1,
         duration: 400,
@@ -25,10 +31,8 @@ export default function App() {
       }).start(() => {
         setShowSplash(false);
       });
-    }, SPLASH_DURATION_MS);
-
-    return () => clearTimeout(timer);
-  }, []);
+    }
+  }, [timerElapsed, fontsLoaded]);
 
   const translateY = slideAnim.interpolate({
     inputRange: [0, 1],

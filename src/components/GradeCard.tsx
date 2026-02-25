@@ -30,8 +30,8 @@ export default function GradeCard({
   onPressBottomDifficulty,
 }: Props) {
   return (
-    <View style={styles.card}>
-      <View style={styles.block}>
+    <View style={styles.card} pointerEvents="box-none">
+      <View style={styles.block} pointerEvents="box-none">
         <Pressable onPress={onPickTop}>
           <View style={styles.row}>
             <MaskedText
@@ -59,7 +59,7 @@ export default function GradeCard({
         </Pressable>
       </View>
 
-      <View style={styles.block}>
+      <View style={styles.block} pointerEvents="box-none">
         <Pressable onPress={onPickBottom}>
           <View style={styles.row}>
             <MaskedText
