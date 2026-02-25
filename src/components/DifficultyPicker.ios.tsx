@@ -7,7 +7,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { useApp } from "../context/AppContext";
 import { GRADES } from "../data/grades";
 import { getLetterSpacing } from "../helpers/getLetterSpacing";
 import { valueFor } from "../hooks/useGradeValue";
@@ -34,7 +33,6 @@ export default function DifficultyPicker({
   onClose,
 }: Props) {
   const padX = useHorizontalPad();
-  const { setGradeAndSyncAnim } = useApp();
 
   const COLS = system === "Polish" ? 4 : 5;
 
@@ -79,7 +77,6 @@ export default function DifficultyPicker({
                   android_ripple={{ color: "#1A18BA20" }}
                   onPress={() => {
                     onSelect(g.idx);
-                    setGradeAndSyncAnim?.(g.idx);
                   }}
                 >
                   <View

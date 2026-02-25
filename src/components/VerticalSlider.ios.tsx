@@ -37,30 +37,24 @@ export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
   const lastIdx = useRef<number>(gradeIdx);
   const usableH = Math.max(fullHeight - TOP_PAD - BOTTOM_PAD, 1);
 
-  useEffect(() => {
-    const measure = () =>
-      ref.current?.measureInWindow((x, y) => {
-        setBlueY(y);
-      });
+  const measureBlueY = () =>
+    requestAnimationFrame(() =>
+      ref.current?.measureInWindow((_x, y) => setBlueY(y))
+    );
 
-    measure();
-    const id = anim.addListener(measure);
+  useEffect(() => {
+    measureBlueY();
+    const id = anim.addListener(measureBlueY);
     return () => anim.removeListener(id);
   }, [anim]);
+
   /* --- measurements --- */
   const onLayout = (e: LayoutChangeEvent) => {
     const h = e.nativeEvent.layout.height;
     setFullHeight(h);
     onLayoutHeight(h);
-    ref.current?.measureInWindow((_x, y) => setBlueY(y));
+    measureBlueY();
   };
-
-  useEffect(() => {
-    const id = anim.addListener(() =>
-      ref.current?.measureInWindow((_x, y) => setBlueY(y))
-    );
-    return () => anim.removeListener(id);
-  }, [anim, setBlueY]);
   /* --- round to nearest step --- */
   const snap = (raw: number) => Math.round(raw / STEP_PCT) * STEP_PCT;
 
@@ -149,7 +143,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "#061FBF",
+    backgroundColor: "#1A18BA",
   },
   thumb: {
     position: "absolute",
