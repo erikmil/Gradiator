@@ -16,5 +16,5 @@
             "ios": { "distribution": "store", "image": "latest" }
         }
     },
-    "submit": { "production": {} }
+    "submit": { "production": { "ios": { "ascAppId": "6759613824" } } }
 }
