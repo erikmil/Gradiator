@@ -7,11 +7,14 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
+  useWindowDimensions,
 } from "react-native";
 
 import { useApp } from "../context/AppContext";
 import { useMask } from "../context/MaskContext";
 import { GRADES } from "../data/grades";
+import { useHorizontalPad } from "../hooks/useHorizontalPad";
+import { normalize } from "./normalizeFont";
 import {
   BOTTOM_PAD,
   R,
@@ -27,6 +30,8 @@ type Props = {
 };
 
 export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
+  const { width: screenWidth } = useWindowDimensions();
+  const padX = useHorizontalPad();
   const ref = useRef<View>(null);
   const { setGradeAndSyncAnim, stepUp, stepDown, anim, gradeIdx, setGradeIdx } =
     useApp();
@@ -116,18 +121,18 @@ export default function VerticalSlider({ onChange, onLayoutHeight }: Props) {
       {/* Handle */}
       <Animated.View
         {...pan.panHandlers}
-        style={[styles.thumb, { bottom: thumbBottom }]}
+        style={[styles.thumb, { bottom: thumbBottom, marginLeft: padX }]}
       >
         <Ionicons
           name="chevron-up-outline"
-          size={25}
+          size={screenWidth >= 768 ? 34 : 25}
           color="#000"
           style={{ marginBottom: -2 }}
         />
         <View style={styles.line} />
         <Ionicons
           name="chevron-down-outline"
-          size={25}
+          size={screenWidth >= 768 ? 34 : 25}
           color="#000"
           style={{ marginTop: -2 }}
         />
@@ -148,7 +153,6 @@ const styles = StyleSheet.create({
   thumb: {
     position: "absolute",
     alignSelf: "flex-start",
-    marginLeft: 24,
     width: THUMB,
     height: THUMB,
     borderRadius: R,
@@ -158,7 +162,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   line: {
-    width: 32,
+    width: Math.round(normalize(32)),
     height: 2,
     backgroundColor: "#F2F2F2",
   },

@@ -44,7 +44,7 @@ export default function App() {
       <AppProvider>
         <MaskProvider>
           <StatusBar style="auto" />
-          <HomeScreen />
+          {fontsLoaded && <HomeScreen />}
 
           {showSplash && (
             <Animated.View

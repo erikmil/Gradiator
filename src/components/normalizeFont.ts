@@ -12,4 +12,5 @@ export const verticalScale = (size: number) =>
 export const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 
-export const normalize = (size: number) => moderateScale(size, 0.25);
+const scaleFactor = SCREEN_WIDTH >= 768 ? 0.5 : 0.25;
+export const normalize = (size: number) => moderateScale(size, scaleFactor);

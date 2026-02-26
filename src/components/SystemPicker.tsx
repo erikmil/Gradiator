@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { SYSTEMS } from "../data/systems";
 import { getLetterSpacing } from "../helpers/getLetterSpacing";
 import BackgroundLines from "./BackgroundLines";
@@ -21,6 +21,11 @@ export default function SystemPicker({
   exclude = [],
   selected,
 }: Props) {
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
+  const rowPadV = isTablet ? 16 : 8;
+  const rowH = isTablet ? 68 : 48;
+
   const availableSystems = SYSTEMS.filter((s) => !exclude.includes(s.label));
   return (
     <FullScreenModal visible={visible} onClose={onClose}>
@@ -34,10 +39,10 @@ export default function SystemPicker({
             return (
               <Pressable
                 key={s.key}
-                style={styles.row}
+                style={[styles.row, { paddingVertical: rowPadV }]}
                 onPress={() => onSelect(s.label)}
               >
-                <View style={[styles.highlight, isSelected && styles.highlightSelected]}>
+                <View style={[styles.highlight, { height: rowH }, isSelected && styles.highlightSelected]}>
                   <Text style={[styles.txt, isSelected && styles.txtSelected]}>
                     {s.label}
                   </Text>

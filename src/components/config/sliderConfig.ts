@@ -1,5 +1,7 @@
+import { normalize } from "../normalizeFont";
+
 export const STEPS = 33;
-export const THUMB = 75;
+export const THUMB = Math.round(normalize(75));
 export const R = THUMB / 2;
 export const SENS = 1; // 0.5 = 2× slower
 export const TOP_PAD = 80;

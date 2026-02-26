@@ -6,6 +6,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
+  useWindowDimensions,
 } from "react-native";
 import { GRADES } from "../data/grades";
 import { getLetterSpacing } from "../helpers/getLetterSpacing";
@@ -23,8 +24,6 @@ type Props = {
   onClose: () => void;
 };
 
-const GAP = 8;
-
 export default function DifficultyPicker({
   visible,
   system,
@@ -33,10 +32,14 @@ export default function DifficultyPicker({
   onClose,
 }: Props) {
   const padX = useHorizontalPad();
+  const { width: screenW } = useWindowDimensions();
+  const isTablet = screenW >= 768;
+  const GAP = isTablet ? 20 : 8;
+  const cellHeight = isTablet ? 72 : 50;
+  const cellPad = isTablet ? 16 : 10;
 
   const COLS = system === "Polish" ? 4 : 5;
 
-  const screenW = Dimensions.get("window").width;
   const innerW = screenW - padX * 2;
   const cellWidth = Math.floor((innerW - GAP * (COLS - 1)) / COLS);
   const gridW = COLS * cellWidth + (COLS - 1) * GAP;
@@ -69,6 +72,7 @@ export default function DifficultyPicker({
                     styles.cell,
                     {
                       width: cellWidth,
+                      height: cellHeight,
                       marginRight: (idx + 1) % COLS === 0 ? 0 : GAP,
                       marginBottom:
                         idx < availableGrades.length - COLS ? GAP : 0,
@@ -82,7 +86,7 @@ export default function DifficultyPicker({
                   <View
                     style={[
                       {
-                        padding: 10,
+                        padding: cellPad,
                         backgroundColor: isSelected ? "#1A18BA" : "transparent",
                       },
                     ]}

@@ -1,3 +1,5 @@
-export const TITLE = 28;
-export const TXT = 20;
-export const TXTSM = 16;
+import { normalize } from "../normalizeFont";
+
+export const TITLE = normalize(28);
+export const TXT = normalize(20);
+export const TXTSM = normalize(16);

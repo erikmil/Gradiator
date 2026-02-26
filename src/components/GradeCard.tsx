@@ -1,5 +1,5 @@
 import React from "react";
-import { Animated, Pressable, StyleSheet, View } from "react-native";
+import { Animated, Pressable, StyleSheet, View, useWindowDimensions } from "react-native";
 import { Grade } from "../data/grades";
 import { valueFor } from "../hooks/useGradeValue";
 import MaskedText from "./MaskedText";
@@ -29,8 +29,13 @@ export default function GradeCard({
   onPressTopDifficulty,
   onPressBottomDifficulty,
 }: Props) {
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
+  const gap = isTablet ? 140 : 84;
+  const chevronSize = isTablet ? 28 : 18;
+
   return (
-    <View style={styles.card} pointerEvents="box-none">
+    <View style={[styles.card, { gap }]} pointerEvents="box-none">
       <View style={styles.block} pointerEvents="box-none">
         <Pressable onPress={onPickTop}>
           <View style={styles.row}>
@@ -45,7 +50,7 @@ export default function GradeCard({
             />
 
             <MaskedText
-              icon={{ name: "chevron-down-outline", size: 18 }}
+              icon={{ name: "chevron-down-outline", size: chevronSize }}
               blueH={blueH}
             />
           </View>
@@ -73,7 +78,7 @@ export default function GradeCard({
             />
 
             <MaskedText
-              icon={{ name: "chevron-down-outline", size: 18 }}
+              icon={{ name: "chevron-down-outline", size: chevronSize }}
               blueH={blueH}
             />
           </View>
