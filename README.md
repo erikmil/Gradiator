@@ -10,6 +10,7 @@ Gradiator is a lightweight React Native (Expo) app for climbers to convert and c
 - Interactive vertical slider for fast grade selection
 - Pick which grading systems are shown and compare top/bottom choices
 - Small, offline grade table stored in the app (`src/data/grades.ts`)
+- Supports iPhone and iPad (including iPad Pro 13-inch)
 
 ## Screenshots
 
@@ -111,7 +112,7 @@ npx expo run:ios
 Or, if the app is already installed on a booted simulator, launch it directly:
 
 ```bash
-xcrun simctl launch booted com.gabwowce.gradiator
+xcrun simctl launch booted com.gradiator.app
 ```
 
 **Android emulator / device:**
@@ -132,7 +133,7 @@ npx expo start
 
 # Terminal 2 (or use the 'i' / 'a' shortcut in the Metro output)
 # iOS simulator
-xcrun simctl launch booted com.gabwowce.gradiator
+xcrun simctl launch booted com.gradiator.app
 
 # Android emulator
 # Press 'a' in the Metro terminal, or open the app manually on the device
