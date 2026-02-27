@@ -13,7 +13,6 @@
       "resizeMode": "contain"
     },
     "ios": {
-      "buildNumber": "1",
       "supportsTablet": true,
       "bundleIdentifier": "com.gradiator.app",
       "infoPlist": {
