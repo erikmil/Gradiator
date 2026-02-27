@@ -22,7 +22,11 @@ import { useApp } from "../context/AppContext";
 import { GRADES } from "../data/grades";
 import { useHorizontalPad } from "../hooks/useHorizontalPad";
 
-export default function HomeScreen({ contentOpacity }: { contentOpacity: Animated.Value }) {
+export default function HomeScreen({
+  contentAnim,
+}: {
+  contentAnim: Animated.Value;
+}) {
   const {
     gradeIdx,
     topSystem,
@@ -82,7 +86,20 @@ export default function HomeScreen({ contentOpacity }: { contentOpacity: Animate
         />
       </View>
 
-      <Animated.View style={{ opacity: contentOpacity }}>
+      <Animated.View
+        pointerEvents="box-none"
+        style={{
+          opacity: contentAnim,
+          transform: [
+            {
+              translateY: contentAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [-8, 0],
+              }),
+            },
+          ],
+        }}
+      >
         <GradeCard
           grade={grade}
           topLabel={topSystem}

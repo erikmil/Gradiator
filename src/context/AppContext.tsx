@@ -72,10 +72,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!bootstrapped) return;
     const target = idxToAnim(gradeIdx);
+    const duration = Math.max(150, Math.round(target * 750));
     const task = InteractionManager.runAfterInteractions(() => {
       Animated.timing(anim, {
         toValue: target,
-        duration: 800,
+        duration,
         useNativeDriver: false,
       }).start();
     });

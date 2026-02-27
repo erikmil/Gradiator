@@ -17,7 +17,7 @@ export default function App() {
   const [timerElapsed, setTimerElapsed] = useState(false);
   const slideAnim = useRef(new Animated.Value(0)).current;
   const logoOpacity = useRef(new Animated.Value(1)).current;
-  const contentOpacity = useRef(new Animated.Value(0)).current;
+  const contentAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const timer = setTimeout(() => setTimerElapsed(true), SPLASH_DURATION_MS);
@@ -40,10 +40,10 @@ export default function App() {
         }),
       ]).start(() => {
         setShowSplash(false);
-        Animated.timing(contentOpacity, {
+        Animated.spring(contentAnim, {
           toValue: 1,
-          duration: 100,
-          easing: Easing.out(Easing.cubic),
+          tension: 200,
+          friction: 18,
           useNativeDriver: true,
         }).start();
       });
@@ -60,7 +60,7 @@ export default function App() {
       <AppProvider>
         <MaskProvider>
           <StatusBar style="auto" />
-          {fontsLoaded && <HomeScreen contentOpacity={contentOpacity} />}
+          {fontsLoaded && <HomeScreen contentAnim={contentAnim} />}
 
           {showSplash && (
             <Animated.View
