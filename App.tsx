@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, StyleSheet } from "react-native";
+import { Animated, Easing, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { AppProvider } from "./src/context/AppContext";
@@ -16,6 +16,8 @@ export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [timerElapsed, setTimerElapsed] = useState(false);
   const slideAnim = useRef(new Animated.Value(0)).current;
+  const logoOpacity = useRef(new Animated.Value(1)).current;
+  const contentOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const timer = setTimeout(() => setTimerElapsed(true), SPLASH_DURATION_MS);
@@ -24,12 +26,26 @@ export default function App() {
 
   useEffect(() => {
     if (timerElapsed && fontsLoaded) {
-      Animated.timing(slideAnim, {
-        toValue: 1,
-        duration: 400,
-        useNativeDriver: true,
-      }).start(() => {
+      Animated.parallel([
+        Animated.timing(logoOpacity, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 1,
+          duration: 350,
+          easing: Easing.in(Easing.cubic),
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
         setShowSplash(false);
+        Animated.timing(contentOpacity, {
+          toValue: 1,
+          duration: 100,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }).start();
       });
     }
   }, [timerElapsed, fontsLoaded]);
@@ -44,7 +60,7 @@ export default function App() {
       <AppProvider>
         <MaskProvider>
           <StatusBar style="auto" />
-          {fontsLoaded && <HomeScreen />}
+          {fontsLoaded && <HomeScreen contentOpacity={contentOpacity} />}
 
           {showSplash && (
             <Animated.View
@@ -53,7 +69,7 @@ export default function App() {
                 { transform: [{ translateY }] },
               ]}
             >
-              <SplashScreen />
+              <SplashScreen logoOpacity={logoOpacity} />
             </Animated.View>
           )}
         </MaskProvider>

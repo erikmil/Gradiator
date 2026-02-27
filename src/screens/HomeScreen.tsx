@@ -22,7 +22,7 @@ import { useApp } from "../context/AppContext";
 import { GRADES } from "../data/grades";
 import { useHorizontalPad } from "../hooks/useHorizontalPad";
 
-export default function HomeScreen() {
+export default function HomeScreen({ contentOpacity }: { contentOpacity: Animated.Value }) {
   const {
     gradeIdx,
     topSystem,
@@ -82,17 +82,19 @@ export default function HomeScreen() {
         />
       </View>
 
-      <GradeCard
-        grade={grade}
-        topLabel={topSystem}
-        bottomLabel={bottomSystem}
-        blueH={blueH}
-        fullH={fullH}
-        onPickTop={() => openModal("top")}
-        onPickBottom={() => openModal("bottom")}
-        onPressTopDifficulty={() => openModal("grade")}
-        onPressBottomDifficulty={() => openModal("gradeBottom")}
-      />
+      <Animated.View style={{ opacity: contentOpacity }}>
+        <GradeCard
+          grade={grade}
+          topLabel={topSystem}
+          bottomLabel={bottomSystem}
+          blueH={blueH}
+          fullH={fullH}
+          onPickTop={() => openModal("top")}
+          onPickBottom={() => openModal("bottom")}
+          onPressTopDifficulty={() => openModal("grade")}
+          onPressBottomDifficulty={() => openModal("gradeBottom")}
+        />
+      </Animated.View>
     </SafeAreaView>
   );
 }
